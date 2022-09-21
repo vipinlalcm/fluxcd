@@ -12,6 +12,19 @@ spec:
     kind: GitRepository
     name: flux-system
 ---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: prometheus
+  namespace: flux-system
+spec:
+  interval: 10s
+  path: ./zorgo-testing/helm-prometheus
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
 # apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 # kind: Kustomization
 # metadata:
@@ -37,16 +50,3 @@ spec:
 #   sourceRef:
 #     kind: GitRepository
 #     name: flux-system
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: prometheus
-  namespace: flux-system
-spec:
-  interval: 10s
-  path: ./zorgo-testing/helm-prometheus
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
