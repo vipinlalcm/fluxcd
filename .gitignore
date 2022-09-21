@@ -1,2 +1,2 @@
-**/helm-charts/**/**/values.yaml
-**/helm-charts/**/**/loki-values.yaml
+**/helm-charts/**/values.yaml
+**/helm-charts/**/loki-values.yaml
