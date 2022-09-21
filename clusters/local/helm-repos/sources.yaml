@@ -1,4 +1,17 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: helm-repos
+  namespace: flux-system
+spec:
+  interval: 10s
+  ref:
+    branch: main
+  secretRef:
+    name: helm-repos
+  url: ssh://git@git.cygate.io/vipicm/helm-charts.git
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
@@ -6,9 +19,47 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10s
-  path: ../helm-charts/general/sealed-secrets
+  path: ./general/sealed-secrets
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: helm-repos
 ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: loki-distributed
+#   namespace: flux-system
+# spec:
+#   interval: 10s
+#   path: ./zorgo-testing/loki-distributed
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: helm-repos
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+# kind: Kustomization
+# metadata:
+#   name: tempo-distributed
+#   namespace: flux-system
+# spec:
+#   interval: 10s
+#   path: ./zorgo-testing/tempo-distributed
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: helm-repos
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: prometheus
+  namespace: flux-system
+spec:
+  interval: 10s
+  path: ./zorgo-testing/helm-prometheus
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: helm-repos
